@@ -50,8 +50,14 @@ func _process(delta: float) -> void:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 		
-	
-
+	if not ability_cooldown_timer.is_stopped():
+		var remaining_time = round_to_dec(ability_cooldown_timer.time_left,1)
+		get_parent().get_node("HUD").update_ability_timer(remaining_time)
+	else:
+		get_parent().get_node("HUD").update_ability_timer(0)
+		
+func round_to_dec(num, digit):
+	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
 func _on_body_entered(_body: Node2D) -> void:
 	hide()

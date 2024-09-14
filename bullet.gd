@@ -18,3 +18,9 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("mobs"):
 		body.queue_free()  # Destroy the mob
 		queue_free()       # Destroy the bullet
+		update_score(1)
+
+func update_score(score: int) -> void:
+	var main_scene = get_tree().root.get_node("Main")  # Adjust this path if needed
+	if main_scene:
+		main_scene.increase_score(score)

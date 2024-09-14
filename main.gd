@@ -20,6 +20,7 @@ func game_over():
 	get_tree().call_group("mobs", "queue_free")
 	$Music.stop()
 	$DeathSound.play()
+	$Player.get_node("ShootTimer").stop()
 
 func new_game():
 	score = 0
@@ -29,6 +30,7 @@ func new_game():
 	$HUD.show_message("Get Ready")
 	get_tree().call_group("mobs", "queue_free")
 	$Music.play()
+	$Player.get_node("ShootTimer").start()
 
 
 func _on_mob_timer_timeout() -> void:
@@ -66,5 +68,8 @@ func _on_score_timer_timeout() -> void:
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
-	player.get_node("ShootTimer").start()
 	player.get_node("AbilityCooldownTimer").start()
+
+func increase_score(amount: int) -> void:
+	score += amount
+	$HUD.update_score(score)

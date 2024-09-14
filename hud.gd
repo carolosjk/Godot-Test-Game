@@ -15,6 +15,8 @@ func show_game_over():
 	await $MessageTimer.timeout
 
 	$Message.text = "Get Ready Boss!"
+	$AbilityCooldown.text = ""
+	$AbilityCooldown.hide()
 	$Message.show()
 	# Make a one-shot timer and wait for it to finish.
 	await get_tree().create_timer(1.0).timeout
@@ -22,6 +24,12 @@ func show_game_over():
 
 func update_score(score):
 	$ScoreLabel.text = str(score)
+	
+func update_ability_timer(time):
+	if time <= 0.0:
+		$AbilityCooldown.text = "Ability Ready"
+	else:
+		$AbilityCooldown.text = "Ability CD: %.1f s" % time
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +43,7 @@ func _process(_delta: float) -> void:
 
 func _on_start_button_pressed() -> void:
 	$StartButton.hide()
+	$AbilityCooldown.show()
 	start_game.emit()
 
 
